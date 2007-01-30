@@ -1,0 +1,37 @@
+import dbus
+
+from common import *
+from device import Device
+
+class DeviceManager:
+    def __init__(self):
+        self.initialize_dbus_and_hal()
+        self.default_query = 'PhidgetRFID'
+
+    def initialize_dbus_and_hal(self):
+        self.bus = dbus.SystemBus()
+
+        # get Hal manager
+        self.hal_manager_obj = self.bus.get_object(HAL_STR, HAL_MGR_NS_STR)
+        self.hal_manager = dbus.Interface(self.hal_manager_obj, HAL_MGR_STR)
+        
+    def run(self, query = None):
+        if query == None:
+            query = self.default_query 
+
+        devices = self.hal_manager.FindDeviceStringMatch('info.product', query)
+        self.matches = []
+
+        for device in devices:
+            device_obj = self.bus.get_object(HAL_STR, device)
+            self.matches.append(Device(device_obj))
+
+if __name__ == '__main__':
+    dm = DeviceManager()
+    dm.run()
+
+    print 'Possible matches:\n-----------------'
+    i = 1
+    for dev in dm.matches:
+        print '%d. %s\n~~~\n%s\n~~~' % (i, dev.product, dev)
+        i = i + 1
