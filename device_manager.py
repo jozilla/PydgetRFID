@@ -14,10 +14,10 @@ class DeviceManager:
         # get Hal manager
         self.hal_manager_obj = self.bus.get_object(HAL_STR, HAL_MGR_NS_STR)
         self.hal_manager = dbus.Interface(self.hal_manager_obj, HAL_MGR_STR)
-        
+
     def run(self, query = None):
         if query == None:
-            query = self.default_query 
+            query = self.default_query
 
         devices = self.hal_manager.FindDeviceStringMatch('info.product', query)
         self.matches = []

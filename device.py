@@ -16,7 +16,7 @@ class Device:
         # get the serial, vendor_id and product_id
         self.serial = self.properties['usb_device.serial']
         self.vendor_id = self.properties['usb_device.vendor_id']
-        self.product_id = self.properties['usb_device.product_id'] 
+        self.product_id = self.properties['usb_device.product_id']
 
     def __str__(self):
-        return 'Vendor: %s\nVendorID: %s\nProduct: %s\nProductID: %s\nSerial: %s' % (self.vendor, self.vendor_id, self.product, self.product_id, self.serial)
+        return 'Vendor: %s\nVendorID: %X\nProduct: %s\nProductID: %X\nSerial: %s' % (self.vendor, self.vendor_id, self.product, self.product_id, self.serial)
