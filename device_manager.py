@@ -13,7 +13,7 @@ class DeviceManager:
         # get Hal manager
         self.hal_manager_obj = self.bus.get_object(HAL_STR, HAL_MGR_NS_STR)
         self.hal_manager = dbus.Interface(self.hal_manager_obj, HAL_MGR_STR)
-        
+
     def find(self, info = 'PhidgetRFID'):
         devices = self.hal_manager.FindDeviceStringMatch('info.product', info)
         self.matches = []
