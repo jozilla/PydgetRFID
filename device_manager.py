@@ -6,7 +6,6 @@ from device import Device
 class DeviceManager:
     def __init__(self):
         self.initialize_dbus_and_hal()
-        self.default_query = 'PhidgetRFID'
 
     def initialize_dbus_and_hal(self):
         self.bus = dbus.SystemBus()
@@ -15,11 +14,8 @@ class DeviceManager:
         self.hal_manager_obj = self.bus.get_object(HAL_STR, HAL_MGR_NS_STR)
         self.hal_manager = dbus.Interface(self.hal_manager_obj, HAL_MGR_STR)
         
-    def run(self, query = None):
-        if query == None:
-            query = self.default_query 
-
-        devices = self.hal_manager.FindDeviceStringMatch('info.product', query)
+    def find(self, info = 'PhidgetRFID'):
+        devices = self.hal_manager.FindDeviceStringMatch('info.product', info)
         self.matches = []
 
         for device in devices:
@@ -28,7 +24,7 @@ class DeviceManager:
 
 if __name__ == '__main__':
     dm = DeviceManager()
-    dm.run()
+    dm.find()
 
     print 'Possible matches:\n-----------------'
     i = 1
