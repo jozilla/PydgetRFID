@@ -45,6 +45,7 @@ class RFIDReader:
         # label and entry for error messages
         self.err_lbl = gtk.Label('Errors: ')
         self.err_ent = gtk.Entry()
+        self.err_ent.set_text('None')
         self.err_ent.set_editable(False)
 
         # layout
@@ -59,8 +60,8 @@ class RFIDReader:
         self.err_info.add(self.err_ent)
 
         self.frame.add(self.tag_info)
-        self.frame.add(self.read_btn)
         self.frame.add(self.err_info)
+        self.frame.add(self.read_btn)
         self.window.add(self.frame)
 
         self.tag_info.show()
@@ -81,7 +82,7 @@ class RFIDReader:
         try:
             # clear the errors and tag entries
             self.tag_ent.set_text('')
-            self.err_ent.set_text('')
+            self.err_ent.set_text('None')
 
             # read a tag from the device
             self.dev.read_tag()
