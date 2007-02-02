@@ -22,3 +22,13 @@ class DeviceManager:
             device_obj = self.bus.get_object(HAL_STR, device)
             self.matches.append(Device(device_obj))
 
+    def __str__(self):
+        str = 'Possible matches:\n-----------------'
+        i = 1
+
+        for dev in dm.matches:
+            str = str + '%d. %s\n~~~\n%s\n~~~' % (i, dev.product, dev)
+            i = i + 1
+
+        return str
+
