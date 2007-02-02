@@ -1,19 +1,8 @@
 from ctypes import *
 
-class PhidgetRFID(Structure):
-    """PhidgetRFID struct."""
-    _fields_ = [
-            ("phidget", POINTER(c_int)), # generic Phidget device  
-            ("time", c_long), # time to read the tag
-            ("l_tag", c_ulonglong), # tag data
-            ("onboard_led", c_byte), # bool, led on?
-            ("plus_five", c_byte), # bool, +5V on?
-            ("external_led", c_byte), # bool, external led on?
-            ("enabled", c_byte) #bool, reading on?
-            ]
+from __init__ import *
 
 TAG_TIME_OUT = 6000
-PHIDGET_RET_SUCCESS = 0
 
 class PhidgetRFIDReader:
     def __init__(self):
@@ -21,9 +10,11 @@ class PhidgetRFIDReader:
         # load dynamic library
         self.lib = cdll.LoadLibrary('libphidgets.so')
         ret = self.lib.phidget_init()
+        self.check_errors(ret)
+
+    def check_errors(self, ret):
         if ret != PHIDGET_RET_SUCCESS:
-            pass
-            #TODO: raise error
+            raise PhidgetsError, ret
 
     def open(self, usb_dev_info):
         self.lib.phidget_new_PhidgetRFID.restype = POINTER(PhidgetRFID)
@@ -31,23 +22,17 @@ class PhidgetRFIDReader:
         self.dev_obj = self.dev.contents
         ret = self.lib.phidget_rfid_open(self.dev, 
                                          c_int(int(usb_dev_info.serial)))
-        if ret != PHIDGET_RET_SUCCESS:
-            pass
-            #TODO: raise error
+        self.check_errors(ret)
 
     def enable(self):
         ret = self.lib.phidget_rfid_set_state(self.dev, True, False,
                                                         False, False)
-        if ret != PHIDGET_RET_SUCCESS:
-            pass
-            #TODO: raise error
+        self.check_errors(ret)
 
     def read_tag(self):
         ret = self.lib.phidget_rfid_get_tag(self.dev,
                                             c_int(TAG_TIME_OUT))
-        if ret != PHIDGET_RET_SUCCESS:
-            pass
-            #TODO: raise error
+        self.check_errors(ret)
 
     def tag(self):
         if self.dev != None:

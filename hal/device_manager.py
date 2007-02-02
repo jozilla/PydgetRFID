@@ -1,7 +1,7 @@
 import dbus
 
-from common import *
-from device import Device
+from __init__ import *
+from usb_device_info import USBDeviceInfo
 
 class DeviceManager:
     def __init__(self):
@@ -20,15 +20,19 @@ class DeviceManager:
 
         for device in devices:
             device_obj = self.bus.get_object(HAL_STR, device)
-            self.matches.append(Device(device_obj))
+            self.matches.append(USBDeviceInfo(device_obj))
 
     def __str__(self):
         str = 'Possible matches:\n-----------------'
         i = 1
 
-        for dev in dm.matches:
-            str = str + '%d. %s\n~~~\n%s\n~~~' % (i, dev.product, dev)
+        for info in dm.matches:
+            str = str + '%d. %s\n~~~\n%s\n~~~' % (i, info.product, info)
             i = i + 1
 
         return str
 
+if __name__ == "__main__":
+    dm = DeviceManager()
+    dm.find()
+    print dm

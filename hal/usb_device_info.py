@@ -1,7 +1,8 @@
 import dbus
-from common import *
 
-class Device:
+from __init__ import *
+
+class USBDeviceInfo:
     def __init__(self, device_obj):
         self.device_obj = device_obj
 
@@ -20,3 +21,4 @@ class Device:
 
     def __str__(self):
         return 'Vendor: %s\nVendorID: %X\nProduct: %s\nProductID: %X\nSerial: %s' % (self.vendor, self.vendor_id, self.product, self.product_id, self.serial)
+
