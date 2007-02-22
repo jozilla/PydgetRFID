@@ -1,4 +1,5 @@
 from ctypes import *
+import sys
 
 from __init__ import *
 
@@ -7,9 +8,14 @@ class PhidgetRFIDReader:
         self.timeout = timeout
         self.dev = None
         # load dynamic library
-        self.lib = cdll.LoadLibrary('libphidgets.so')
-        ret = self.lib.phidget_init()
-        self.check_errors(ret)
+        try:
+            self.lib = cdll.LoadLibrary('libphidgets.so')
+            ret = self.lib.phidget_init()
+            self.check_errors(ret)
+        except:
+            print """Could not import libphidgets. Please check if it is
+                     installed."""
+            sys.exit(1)
 
     def check_errors(self, ret):
         if ret != PHIDGET_RET_SUCCESS:
