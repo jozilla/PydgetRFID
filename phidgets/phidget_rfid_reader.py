@@ -2,10 +2,9 @@ from ctypes import *
 
 from __init__ import *
 
-TAG_TIME_OUT = 6000
-
 class PhidgetRFIDReader:
-    def __init__(self):
+    def __init__(self, timeout = 6000):
+        self.timeout = timeout
         self.dev = None
         # load dynamic library
         self.lib = cdll.LoadLibrary('libphidgets.so')
@@ -31,7 +30,7 @@ class PhidgetRFIDReader:
 
     def read_tag(self):
         ret = self.lib.phidget_rfid_get_tag(self.dev,
-                                            c_int(TAG_TIME_OUT))
+                                            c_int(self.timeout))
         self.check_errors(ret)
 
     def tag(self):
