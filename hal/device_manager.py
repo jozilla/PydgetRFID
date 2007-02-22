@@ -82,14 +82,17 @@ class DeviceManager:
                 print 'Current device serial: %s' % self.matches[self.current].serial
 
     def __str__(self):
-        str = 'Current matches:\n-----------------\n'
-        i = 1
-
-        for (udi, info) in self.matches.items():
-            str = str + '%d. %s\n~~~\n%s\n~~~' % (i, udi, info)
-            i = i + 1
-
-        return str
+        if len(self.matches) == 0:
+            return "No matching devices."
+        else:
+            str = 'Current matching devices:\n-------------------------\n'
+            i = 1
+    
+            for (udi, info) in self.matches.items():
+                str = str + '%d. %s\n~~~\n%s\n~~~' % (i, udi, info)
+                i = i + 1
+    
+            return str
 
 if __name__ == "__main__":
     dm = DeviceManager()
