@@ -14,7 +14,7 @@ class RFIDReader:
         try:
             self.dm = DeviceManager()
             self.dm.find()
-            self.dev_info = self.dm.matches[0]
+            self.dev_info = self.dm.matches[self.dm.current]
             self.dev = PhidgetRFIDReader()
             self.dev.open(self.dev_info)
             self.dev.enable()
