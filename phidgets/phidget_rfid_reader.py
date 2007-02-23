@@ -13,8 +13,7 @@ class PhidgetRFIDReader:
             ret = self.lib.phidget_init()
             self.check_errors(ret)
         except:
-            print """Could not import libphidgets. Please check if it is
-                     installed."""
+            print "Could not import libphidgets."
             sys.exit(1)
 
     def check_errors(self, ret):
