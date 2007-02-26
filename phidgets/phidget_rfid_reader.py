@@ -60,10 +60,15 @@ class PhidgetRFIDReader:
 
     def __del__(self):
         if self.dev != None:
-            close_func = lambda: self.lib.phidget_rfid_close(self.dev)
-            delete_func = lambda: self.lib.phidget_delete_PhidgetRFID(self.dev)
-            cleanup_func = lambda: self.lib.phidget_cleanup()
-            self.call_and_check(close_func)
-            self.call_and_check(delete_func)
-            self.call_and_check(cleanup_func)
+            try:
+                close_func = lambda: self.lib.phidget_rfid_close(self.dev)
+                self.call_and_check(close_func)
+
+                # delete has no return value, so we just call it
+                self.lib.phidget_delete_PhidgetRFID(self.dev)
+                
+                cleanup_func = lambda: self.lib.phidget_cleanup()
+                self.call_and_check(cleanup_func)
+            except Exception, err:
+                print "While deleting PhidgetRFIDReader -- %s" % err
 
