@@ -42,4 +42,7 @@ class PhidgetsError(Exception):
                 }
 
     def __str__(self):
-        return self.messages[self.errno]
+        try:
+            return 'PhidgetsError: %s' % self.messages[self.errno]
+        except KeyError:
+            return 'Unknown PhidgetsError: code %d' % self.errno

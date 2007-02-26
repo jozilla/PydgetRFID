@@ -14,7 +14,7 @@ class RFIDReader:
         try:
             self.dm = DeviceManager()
             self.dm.find()
-            self.dev_info = self.dm.matches[0]
+            self.dev_info = self.dm.matches[self.dm.current]
             self.dev = PhidgetRFIDReader()
             self.dev.open(self.dev_info)
             self.dev.enable()
@@ -88,8 +88,7 @@ class RFIDReader:
             self.dev.read_tag()
 
             # put it in the tag entry
-            tag = '%010lx' % (self.dev.tag())
-            self.tag_ent.set_text(tag)
+            self.tag_ent.set_text(self.dev.tag())
         except Exception, e:
             self.err_ent.set_text(str(e))
 
