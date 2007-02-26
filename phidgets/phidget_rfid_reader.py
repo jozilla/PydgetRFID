@@ -45,17 +45,19 @@ class PhidgetRFIDReader:
 
     def tag(self):
         if self.dev != None:
-            return self.dev_obj.l_tag
+            return '%010lx' % self.dev_obj.l_tag
+        else:
+            return ''
 
     def time(self):
         if self.dev != None:
-            return self.dev_obj.time
+            return '%lu' % self.dev_obj.time
+        else:
+            return ''
 
     def __str__(self):
-        return "Tag: %010lx, Time: %lu" % (
-                                               self.dev_obj.l_tag, 
-                                               self.dev_obj.time
-                                             )
+        return "Tag: %s, Time: %s" % (self.dev_obj.l_tag, self.dev_obj.time)
+
     def __del__(self):
         if self.dev != None:
             close_func = lambda: self.lib.phidget_rfid_close(self.dev)
