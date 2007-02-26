@@ -12,8 +12,8 @@ class PhidgetRFIDReader:
             self.lib = cdll.LoadLibrary('libphidgets.so')
             init_func = lambda: self.lib.phidget_init()
             self.call_and_check(init_func)
-        except:
-            print "Could not import libphidgets."
+        except OSError, err:
+            print "Could not import libphidgets: %s" % err
             sys.exit(1)
 
     def call_and_check(self, func):
