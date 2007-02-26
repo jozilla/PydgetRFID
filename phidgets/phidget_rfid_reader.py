@@ -10,13 +10,14 @@ class PhidgetRFIDReader:
         # load dynamic library
         try:
             self.lib = cdll.LoadLibrary('libphidgets.so')
-            ret = self.lib.phidget_init()
-            self.check_errors(ret)
+            init_func = lambda: self.lib.phidget_init()
+            self.call_and_check(init_func)
         except:
             print "Could not import libphidgets."
             sys.exit(1)
 
-    def check_errors(self, ret):
+    def call_and_check(self, func):
+        ret = func()
         if ret != PHIDGET_RET_SUCCESS:
             raise PhidgetsError, ret
 
@@ -24,19 +25,23 @@ class PhidgetRFIDReader:
         self.lib.phidget_new_PhidgetRFID.restype = POINTER(PhidgetRFID)
         self.dev = self.lib.phidget_new_PhidgetRFID()
         self.dev_obj = self.dev.contents
-        ret = self.lib.phidget_rfid_open(self.dev, 
-                                         c_int(int(usb_dev_info.serial)))
-        self.check_errors(ret)
+
+        open_func = lambda: self.lib.phidget_rfid_open(
+                        self.dev, c_int(int(usb_dev_info.serial))
+                    )
+        self.call_and_check(open_func)
 
     def enable(self):
-        ret = self.lib.phidget_rfid_set_state(self.dev, True, False,
-                                                        False, False)
-        self.check_errors(ret)
+        set_state_func = lambda: self.lib.phidget_rfid_set_state(
+                             self.dev, True, False, False, False
+                         )
+        self.call_and_check(set_state_func)
 
     def read_tag(self):
-        ret = self.lib.phidget_rfid_get_tag(self.dev,
-                                            c_int(self.timeout))
-        self.check_errors(ret)
+        get_tag_func = lambda: self.lib.phidget_rfid_get_tag(
+                           self.dev, c_int(self.timeout)
+                       )
+        self.call_and_check(get_tag_func)
 
     def tag(self):
         if self.dev != None:
@@ -51,10 +56,12 @@ class PhidgetRFIDReader:
                                                self.dev_obj.l_tag, 
                                                self.dev_obj.time
                                              )
-
     def __del__(self):
         if self.dev != None:
-            self.lib.phidget_rfid_close(self.dev)
-            self.lib.phidget_delete_PhidgetRFID(self.dev)
-            self.lib.phidget_cleanup()
+            close_func = lambda: self.lib.phidget_rfid_close(self.dev)
+            delete_func = lambda: self.lib.phidget_delete_PhidgetRFID(self.dev)
+            cleanup_func = lambda: self.lib.phidget_cleanup()
+            self.call_and_check(close_func)
+            self.call_and_check(delete_func)
+            self.call_and_check(cleanup_func)
 
