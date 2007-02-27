@@ -34,7 +34,7 @@ PydgetRFID requires:
 * Most likely already installed on your GNU/Linux distribution
 
 ----
-[1] http://www.jozilla.be/software/pydgetrfid
+[1] http://www.jozilla.net/software/pydgetrfid
 [2] http://www.phidgetsusa.com/RFID_Reader_tags.asp
 [3] http://libphidgets.alioth.debian.org/
 [4] http://docs.python.org/lib/module-ctypes.html
