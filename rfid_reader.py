@@ -2,22 +2,31 @@ import pygtk
 pygtk.require('2.0')
 import gtk
 
+import gobject
+import dbus
+if getattr(dbus, 'version', (0,0,0)) >= (0,41,0):
+    import dbus.glib # for signal handlers
+
 from hal.device_manager import DeviceManager
 from phidgets.phidget_rfid_reader import PhidgetRFIDReader
 
 class RFIDReader:
     def __init__(self):
         self.init_ui()
-        self.init_dm()
+        self.init_daemon()
 
-    def init_dm(self):
+    def init_daemon(self):
         try:
-            self.dm = DeviceManager()
-            self.dm.find()
-            self.dev_info = self.dm.matches[self.dm.current]
-            self.dev = PhidgetRFIDReader()
-            self.dev.open(self.dev_info)
-            self.dev.enable()
+            # set up daemon
+            bus = dbus.SessionBus()
+            self.daemon = bus.get_object('net.jozilla.PydgetRFID.Daemon', '/Daemon')
+            self.daemon_iface = dbus.Interface(self.daemon, 'net.jozilla.PydgetRFID.DaemonInterface')
+
+            # register handler
+            self.daemon.connect_to_signal('tag_changed_signal', 
+                                           self.tag_changed_signal_handler, 
+                                           dbus_interface='net.jozilla.PydgetRFID.DaemonInterface')
+
         except Exception, e:
             self.err_ent.set_text(str(e))
 
@@ -34,8 +43,8 @@ class RFIDReader:
         self.window.set_border_width(10)
 
         # button
-        self.read_btn = gtk.Button('Read tag')
-        self.read_btn.connect('clicked', self.read_tag, None)
+        self.start_stop_btn = gtk.Button('Start')
+        self.start_stop_btn.connect('clicked', self.start_or_stop, None)
 
         # tag label and entry
         self.tag_lbl = gtk.Label('Tag: ')
@@ -61,14 +70,14 @@ class RFIDReader:
 
         self.frame.add(self.tag_info)
         self.frame.add(self.err_info)
-        self.frame.add(self.read_btn)
+        self.frame.add(self.start_stop_btn)
         self.window.add(self.frame)
 
         self.tag_info.show()
         self.tag_lbl.show()
         self.tag_ent.show()
 
-        self.read_btn.show()
+        self.start_stop_btn.show()
 
         self.err_info.show()
         self.err_lbl.show()
@@ -78,19 +87,27 @@ class RFIDReader:
 
         self.window.show()
 
-    def read_tag(self, widget, data=None):
+    def start_or_stop(self, widget, data=None):
         try:
-            # clear the errors and tag entries
-            self.tag_ent.set_text('')
-            self.err_ent.set_text('None')
+            if self.start_stop_btn.get_label() == 'Start':
+                # update the widgets 
+                self.start_stop_btn.set_label('Stop')
+                self.err_ent.set_text('None')
 
-            # read a tag from the device
-            self.dev.read_tag()
+                # start reading
+                self.daemon.start_reading(dbus_interface = 'net.jozilla.PydgetRFID.DaemonInterface')
+            else:
+                # update the widgets 
+                self.start_stop_btn.set_label('Start')
+                self.err_ent.set_text('None')
 
-            # put it in the tag entry
-            self.tag_ent.set_text(self.dev.tag())
+                # stop reading
+                self.daemon.stop_reading(dbus_interface = 'net.jozilla.PydgetRFID.DaemonInterface')
         except Exception, e:
             self.err_ent.set_text(str(e))
+
+    def tag_changed_signal_handler(self, tag):
+        self.tag_ent.set_text(tag)
 
     def delete_event(self, widget, event, data=None):
         return False
