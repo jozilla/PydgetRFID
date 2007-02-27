@@ -1,5 +1,7 @@
 from ctypes import *
 
+TAG_NIL_VALUE = '0800000000'
+
 class PhidgetRFID(Structure):
     """PhidgetRFID struct."""
     _fields_ = [
