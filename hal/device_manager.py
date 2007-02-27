@@ -81,6 +81,15 @@ class DeviceManager:
             if self.current != None:
                 print 'Current device serial: %s' % self.matches[self.current].serial
 
+    def found_match(self):
+        return self.current != None and len(self.matches) > 0
+
+    def current_device_info(self):
+        if self.found_match():
+            return self.matches[self.current]
+        else:
+            raise NoDeviceFoundError 
+
     def __str__(self):
         if len(self.matches) == 0:
             return "No matching devices."
