@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+
 import pygtk
 pygtk.require('2.0')
 import gtk
@@ -7,13 +9,22 @@ import dbus
 if getattr(dbus, 'version', (0,0,0)) >= (0,41,0):
     import dbus.glib # for signal handlers
 
+import sys
+
 from hal.device_manager import DeviceManager
 from phidgets.phidget_rfid_reader import PhidgetRFIDReader
+from phidgets import TAG_NIL_VALUE
 
 class RFIDReader:
     def __init__(self):
-        self.init_ui()
-        self.init_daemon()
+        try:
+            self.init_ui()
+            self.init_daemon()
+        except IntrospectError:
+            # daemon was not running
+            print 'running daemon!'
+            sys.os('python daemon.py')
+            self.init_daemon()
 
     def init_daemon(self):
         try:
@@ -26,14 +37,13 @@ class RFIDReader:
             self.daemon.connect_to_signal('tag_changed_signal', 
                                            self.tag_changed_signal_handler, 
                                            dbus_interface='net.jozilla.PydgetRFID.DaemonInterface')
-
         except Exception, e:
             self.err_ent.set_text(str(e))
 
     def init_ui(self):
         # create a window
         self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
-        self.window.set_title('PhidgetRFID Reader')
+        self.window.set_title('PydgetRFID')
 
         # standard event handlers
         self.window.connect('delete_event', self.delete_event)
@@ -56,6 +66,10 @@ class RFIDReader:
         self.err_ent = gtk.Entry()
         self.err_ent.set_text('None')
         self.err_ent.set_editable(False)
+
+        # colors for tag entry
+        self.default_color = self.tag_ent.get_style().text[0]
+        self.red = gtk.gdk.Color(red=50000, green=0, blue=0, pixel=0)
 
         # layout
         self.frame = gtk.VBox()
@@ -107,16 +121,27 @@ class RFIDReader:
             self.err_ent.set_text(str(e))
 
     def tag_changed_signal_handler(self, tag):
+        if tag == TAG_NIL_VALUE:
+            self.tag_ent.modify_text(gtk.STATE_NORMAL, self.red)
+        else:
+            self.tag_ent.modify_text(gtk.STATE_NORMAL, self.default_color)
+
         self.tag_ent.set_text(tag)
 
     def delete_event(self, widget, event, data=None):
         return False
 
     def destroy(self, widget, data=None):
+        # always stop reading
+        self.daemon.stop_reading(dbus_interface = 'net.jozilla.PydgetRFID.DaemonInterface')
+
         gtk.main_quit()
 
     def main(self):
-        gtk.main()
+        try:
+            gtk.main()
+        except KeyboardInterrupt:
+            sys.exit(1)
 
 if __name__ == '__main__':
     RFIDReader().main()
