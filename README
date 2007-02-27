@@ -5,7 +5,7 @@ PydgetRFID [1] is a tool to interface with the Phidgets Inc. RFID
 kit. It wraps libphidgets [2] with ctypes [3] to communicate with the
 hardware.
 
-Copyright (C) 2005-2006 Jo Vermeulen <jo.vermeulen@uhasselt.be>
+Copyright (C) 2007 Jo Vermeulen <jo.vermeulen@uhasselt.be>
 
 This software is licensed under the GPL, see COPYING for more
 details.
