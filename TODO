@@ -1,0 +1,8 @@
+Improvements:
+    * Create another DBUS service for hal.DeviceManager, to allow the
+      hardware to be disconnected and connected during the lifecycle
+      of the daemon.
+
+    * Provide a Debian package (or Python egg)
+
+    * Document the current code (especially the DBUS daemon)

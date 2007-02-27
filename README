@@ -5,6 +5,11 @@ PydgetRFID [1] is a tool to interface with the Phidgets Inc. RFID
 kit [2]. It wraps libphidgets [3] with ctypes [4] to communicate with the
 hardware.
 
+PydgetRFID consists of a DBUS service that allows other applications
+to use the hardware through DBUS. It allows to start and stop reading,
+and emits a signal whenever a new tag is read. A simple graphical user
+interface (built with PyGTK) which uses this daemon is provided.
+
 Copyright (C) 2007 Jo Vermeulen <jo.vermeulen@uhasselt.be>
 
 This software is licensed under the GPL, see COPYING for more
