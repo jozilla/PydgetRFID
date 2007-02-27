@@ -56,7 +56,7 @@ class PhidgetRFIDReader:
             return ''
 
     def __str__(self):
-        return "Tag: %s, Time: %s" % (self.dev_obj.l_tag, self.dev_obj.time)
+        return "Tag: %s, Time: %s" % (self.tag(), self.time())
 
     def __del__(self):
         if self.dev != None:
