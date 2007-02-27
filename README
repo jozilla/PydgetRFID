@@ -1,8 +1,8 @@
 PydgetRFID README
 =================
 
-PydgetRFID [1] is a tool to interface with the Phidgets Inc. RFID
-kit [2]. It wraps libphidgets [3] with ctypes [4] to communicate with the
+PydgetRFID [1] is a tool to interface with the Phidgets Inc. RFID kit
+[2]. It wraps libphidgets [3] with ctypes [4] to communicate with the
 hardware.
 
 PydgetRFID consists of a DBUS service that allows other applications
@@ -33,9 +33,20 @@ PydgetRFID requires:
 
 * Most likely already installed on your GNU/Linux distribution
 
+Acknowledgements
+----------------
+
+I would like to thank the people at Phidgets Inc. for making their
+hardware so easily accessible and the libphidgets developers for
+making a user-space driver. 
+
+Of course, thanks go to my employer [5] for purchasing the hardware
+and allowing me to use it.
+
 ----
 [1] http://www.jozilla.net/software/pydgetrfid
 [2] http://www.phidgetsusa.com/RFID_Reader_tags.asp
 [3] http://libphidgets.alioth.debian.org/
 [4] http://docs.python.org/lib/module-ctypes.html
+[5] http://www.edm.uhasselt.be/
 
