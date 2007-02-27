@@ -1,7 +1,7 @@
-PydgetsRFID README
-==================
+PydgetRFID README
+=================
 
-PydgetsRFID [1] is a tool to interface with the Phidgets Inc. RFID
+PydgetRFID [1] is a tool to interface with the Phidgets Inc. RFID
 kit. It wraps libphidgets [2] with ctypes [3] to communicate with the
 hardware.
 
@@ -15,7 +15,7 @@ Feedback is always welcome!
 Dependencies
 ------------
 
-PydgetsRFID requires:
+PydgetRFID requires:
 
 * libphidgets
 * Python
@@ -23,7 +23,7 @@ PydgetsRFID requires:
 * PyGTK (for the GUI)
 
 ----
-[1] http://www.jozilla.be/software/pydgetsrfid
+[1] http://www.jozilla.be/software/pydgetrfid
 [2] http://libphidgets.alioth.debian.org/
 [3] http://docs.python.org/lib/module-ctypes.html
 
