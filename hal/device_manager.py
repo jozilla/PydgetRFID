@@ -23,6 +23,8 @@ import dbus
 if getattr(dbus, 'version', (0,0,0)) >= (0,41,0):
     import dbus.glib # for signal handlers
 
+import sys
+
 from __init__ import *
 from usb_device_info import USBDeviceInfo
 
@@ -124,7 +126,10 @@ class DeviceManager:
             return str
 
 if __name__ == "__main__":
-    dm = DeviceManager()
-    print dm
-    mainloop = gobject.MainLoop()
-    mainloop.run()
+    try:
+        dm = DeviceManager()
+        print dm
+        mainloop = gobject.MainLoop()
+        mainloop.run()
+    except KeyboardInterrupt:
+        sys.exit(1)
