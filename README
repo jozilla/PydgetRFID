@@ -1,8 +1,8 @@
 PydgetRFID README
 =================
 
-PydgetRFID [1] is a front-end for the Phidgets Inc. RFID kit [2],
-written in Python. It wraps libphidgets [3] with ctypes [4] to
+PydgetRFID [1] is a front-end for the Phidgets Inc. RFID kit [2] and
+is written in Python. It wraps libphidgets [3] with ctypes [4] to
 communicate with the hardware.
 
 PydgetRFID consists of a DBUS service that allows other applications
