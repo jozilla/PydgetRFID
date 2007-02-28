@@ -1,4 +1,4 @@
-# PydgetRFID -- a Python interface for the Phidgets Inc. RFID kit.
+# PydgetRFID -- a Python front-end for the Phidgets Inc. RFID kit.
 # Copyright (C) 2007  Jo Vermeulen
 #
 # This program is free software; you can redistribute it and/or modify
