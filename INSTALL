@@ -1,0 +1,31 @@
+Important
+---------
+
+To be able to use the hardware, you should set up the correct
+permissions.
+
+The easiest way to do so is edit the
+/etc/udev/rules.d/permissions.rules file (on my system it was called
+40-permissions.rules).
+
+Change these lines:
+
+# USB devices (usbfs replacement)
+SUBSYSTEM=="usb_device", MODE="0664"
+
+into:
+
+# USB devices (usbfs replacement)
+SUBSYSTEM=="usb_device", GROUP="plugdev", MODE="0664"
+
+Usage
+-----
+
+To run the DBUS daemon:
+
+$ ./daemon.py
+
+To run the GUI:
+
+$ ./pydget_rfid.py
+
