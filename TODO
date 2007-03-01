@@ -1,3 +1,7 @@
+Unfinished:
+    * Add support for controlling the other options of the reader
+      (e.g. the LED, 5V, etc.)
+
 Improvements:
     * Create another DBUS service for hal.DeviceManager, to allow the
       hardware to be disconnected and connected during the lifecycle
@@ -6,3 +10,4 @@ Improvements:
     * Provide a Debian package (or Python egg)
 
     * Document the current code (especially the DBUS daemon)
+
