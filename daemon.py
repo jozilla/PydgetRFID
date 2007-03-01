@@ -115,6 +115,10 @@ class Daemon(dbus.service.Object):
         # The signal is emitted when this method exits
         pass
 
+    @dbus.service.signal('net.jozilla.PydgetRFID.DaemonInterface')
+    def get_current_tag(self):
+        return self.dev.tag()
+
 if __name__ == '__main__':
     try:
         # needed to support threads
