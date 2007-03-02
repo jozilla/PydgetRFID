@@ -47,6 +47,7 @@ class Daemon(dbus.service.Object):
 
     @dbus.service.method('net.jozilla.PydgetRFID.DaemonInterface')
     def start_reading(self):
+        """Start a loop that keeps reading RFID tags."""
         self.keep_reading = True
 
         # start a new thread to handle the reading
@@ -55,6 +56,7 @@ class Daemon(dbus.service.Object):
 
     @dbus.service.method('net.jozilla.PydgetRFID.DaemonInterface')
     def stop_reading(self):
+        """Stop the reading loop if it was previously started."""
         self.keep_reading = False
 
         # stop the reading thread (if running)
@@ -101,11 +103,19 @@ class Daemon(dbus.service.Object):
 
     @dbus.service.signal('net.jozilla.PydgetRFID.DaemonInterface')
     def tag_changed_signal(self, tag):
-        # The signal is emitted when this method exits
-        pass
+        """This signal is emitted when a different tag is read, with 
+        the tag parameter containing the tag's value as a string.
+        
+        When an RFID tag is placed in the vicinity of the reader,
+        tag_changed_signal is emitted only once. When we move it out
+        of the reader's range, tag_changed_signal is emitted again
+        just one time with the nil value we just read."""
+
+        pass # The signal is emitted when this method exits
 
     @dbus.service.signal('net.jozilla.PydgetRFID.DaemonInterface')
     def get_current_tag(self):
+        """Get the tag that was last read by the reader."""
         return self.dev.tag()
 
 if __name__ == '__main__':
