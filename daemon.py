@@ -31,17 +31,6 @@ from hal.device_manager import DeviceManager
 from phidgets.phidget_rfid_reader import PhidgetRFIDReader
 from phidgets import TAG_NIL_VALUE
 
-def two_the_same(bf_prev, prev, cur):
-    if prev == TAG_NIL_VALUE and bf_prev == cur:
-        return True
-    elif cur == TAG_NIL_VALUE and bf_prev == prev:
-        return True
-    elif cur == prev == bf_prev == TAG_NIL_VALUE:
-        return True
-    else:
-        return False
-
-
 class Daemon(dbus.service.Object):
     def __init__(self, bus_name, object_path="/Daemon"):
         dbus.service.Object.__init__(self, bus_name, object_path)
