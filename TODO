@@ -3,7 +3,7 @@ Unfinished:
       (e.g. the LED, 5V, etc.)
 
 Improvements:
-    * Create another DBUS service for hal.DeviceManager, to allow the
+    * Create another D-Bus service for hal.DeviceManager, to allow the
       hardware to be disconnected and connected during the lifecycle
       of the daemon.
 

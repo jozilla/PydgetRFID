@@ -21,7 +21,7 @@ SUBSYSTEM=="usb_device", GROUP="plugdev", MODE="0664"
 Usage
 -----
 
-To run the DBUS daemon:
+To run the D-Bus daemon:
 
 $ ./daemon.py
 

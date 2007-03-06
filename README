@@ -5,8 +5,8 @@ PydgetRFID [1] is a front-end for the Phidgets Inc. RFID kit [2] and
 is written in Python. It wraps libphidgets [3] with ctypes [4] to
 communicate with the hardware.
 
-PydgetRFID consists of a DBUS service that allows other applications
-to use the hardware through DBUS. It allows to start and stop reading,
+PydgetRFID consists of a D-Bus service that allows other applications
+to use the hardware through D-Bus. It allows to start and stop reading,
 and emits a signal whenever a new tag is read. A simple graphical user
 interface (built with PyGTK) which uses this daemon is provided.
 
