@@ -48,11 +48,13 @@ class Daemon(dbus.service.Object):
     @dbus.service.method('net.jozilla.PydgetRFID.DaemonInterface')
     def start_reading(self):
         """Start a loop that keeps reading RFID tags."""
-        self.keep_reading = True
-
-        # start a new thread to handle the reading
-        self.reading_thread = Thread(target=self.read)
-        self.reading_thread.start()
+        # only start the loop if we didn't do so already
+        if self.keep_reading == False:
+            self.keep_reading = True
+    
+            # start a new thread to handle the reading
+            self.reading_thread = Thread(target=self.read)
+            self.reading_thread.start()
 
     @dbus.service.method('net.jozilla.PydgetRFID.DaemonInterface')
     def stop_reading(self):
