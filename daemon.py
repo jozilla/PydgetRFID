@@ -113,7 +113,7 @@ class Daemon(dbus.service.Object):
 
         pass # The signal is emitted when this method exits
 
-    @dbus.service.signal('net.jozilla.PydgetRFID.DaemonInterface')
+    @dbus.service.method('net.jozilla.PydgetRFID.DaemonInterface')
     def get_current_tag(self):
         """Get the tag that was last read by the reader."""
         return self.dev.tag()
