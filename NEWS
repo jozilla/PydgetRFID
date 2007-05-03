@@ -1,2 +1,8 @@
+0.1.1 -- 2007-05-03:
+  * Bug fix: Daemon#get_current_tag was decorated as a method but
+    it is a signal
+  * Bug fix: Daemon#start_reading could start multiple reading
+    loops when called multiple times 
+
 0.1 -- 2007-03-02:
   * Initial release
