@@ -27,7 +27,7 @@ class PhidgetRFIDReader:
         self.dev = None
         # load dynamic library
         try:
-            self.lib = cdll.LoadLibrary('libphidgets.so')
+            self.lib = cdll.LoadLibrary('libphidgets.so.0')
             init_func = lambda: self.lib.phidget_init()
             self.call_and_check(init_func)
         except OSError, err:
