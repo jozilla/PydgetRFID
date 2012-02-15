@@ -10,7 +10,7 @@ to use the hardware through D-Bus. It allows to start and stop reading,
 and emits a signal whenever a new tag is read. A simple graphical user
 interface (built with PyGTK) which uses this daemon is provided.
 
-Copyright (C) 2007 Jo Vermeulen <jo.vermeulen@uhasselt.be>
+Copyright (C) 2007-2012 Jo Vermeulen <jo.vermeulen@uhasselt.be>
 
 This software is licensed under the GPL, see COPYING for more
 details.
@@ -44,9 +44,9 @@ Of course, thanks go to my employer [5] for purchasing the hardware
 and allowing me to use it.
 
 ----
-[1] http://www.jozilla.net/software/pydgetrfid
+[1] http://www.jozilla.net/Software/PydgetRFID
 [2] http://www.phidgetsusa.com/RFID_Reader_tags.asp
 [3] http://libphidgets.alioth.debian.org/
 [4] http://docs.python.org/lib/module-ctypes.html
-[5] http://www.edm.uhasselt.be/
+[5] http://www.uhasselt.be/edm
 
